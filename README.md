@@ -16,7 +16,7 @@ graph TD
     C --> D[Patch-Level CLIP Embeddings]
     D --> E{Low Similarity?}
     E -->|Yes| F[Text-Guided Labeling]
-    F --> G[Assign Label or "Unknown"]
+    F --> G[Assign Label or Unknown]
     E -->|No| H[Optional Object Detection]
     G --> I[Aggregate & Filter Results]
     H --> I
