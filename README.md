@@ -13,8 +13,9 @@ Building on this foundation, Phase 2 extends the functionality to detect and loc
 graph TD
     %% Phase 1 Section
     subgraph Phase1["Phase 1: Global Screen Similarity"]
-        A1["Input Screenshot (Screen A)"] --> B1["Compute CLIP Embedding"]
-        A2["Database of App Screenshots"] --> B2["Compute CLIP Embeddings"]
+        A0["Input Screenshot (Raw)"] --> A1["Crop Status Bar & Navigation Bar"]
+        A1 --> B1["Compute CLIP Embedding"]
+        A2["Database of Cropped App Screenshots"] --> B2["Compute CLIP Embeddings"]
         B1 --> C1["Compute Similarity Matrix"]
         B2 --> C1
         C1 --> D1["Identify Most Similar Screen (Screen B)"]
@@ -36,3 +37,27 @@ graph TD
     end
     
 ```
+
+### Pipeline Explanation
+
+The pipeline operates in two phases to analyze and interpret app screenshots.
+
+#### Phase 1: Global Screen Similarity
+This phase determines which known screen in the database most closely matches the given input screenshot.
+
+1. **Input Screenshot (Screen A):** A new or test screenshot to analyze.  
+2. **Database of App Screenshots:** A collection of previously captured and labeled app screens.  
+3. **CLIP Embedding Computation:** Both the input and database screenshots are converted into CLIP embeddings (compact numerical representations capturing visual and semantic content).
+4. **Similarity Matrix:** The cosine similarity between embeddings is computed to identify the closest match.  
+5. **Output (Screen B):** The database screen most similar to the input, used for fine-grained comparison in the next phase.
+
+#### **Phase 2: Widget-Level Difference Localization**
+Once the most similar screen is identified, this phase focuses on detecting and labeling UI element differences between the two screens.
+
+1. **Pixel-Level Diff / SSIM:** Highlights regions of significant visual change between Screens A and B, used to identify candidate regions for differences between the screenshots.  
+2. **Candidate Regions:** Extracted patches potentially representing modified or new UI components.  
+3. **Patch-Level CLIP Embeddings:** Each patch is embedded using CLIP to assess its semantic similarity to known UI element descriptions.  
+4. **Low Similarity Check:** Determines whether a patch represents a novel or altered element.  
+    1. **Yes -> Text-Guided Labeling:** The patch is compared with textual labels (e.g., "button", "input box") to assign meaning or marked as "unknown". 
+    2. **No -> Optional Object Detection:** Applies existing detectors to refine known components.  
+5. **Aggregation & Output:** All results are combined into bounding boxes and heatmaps, visualizing the detected changes and labeled UI elements.
