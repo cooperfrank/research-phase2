@@ -36,4 +36,6 @@ graph TD
         H --> I
         I --> J["Output: Bounding Boxes + Heatmap"]
     end
+
+    classDef invisible fill=none,stroke=none;
 ```
