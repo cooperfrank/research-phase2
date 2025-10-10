@@ -10,9 +10,10 @@ This project builds on [Phase 1: Image–Image Retrieval for Distinguishing UI S
 Building on this foundation, Phase 2 extends the functionality to detect and localize widget-level differences within and across app screens.
 
 ```mermaid
-graph LR
+graph TD
     %% Phase 1 Section
     subgraph Phase1["Phase 1: Global Screen Similarity"]
+        X1[ ]:::invisible
         A1["Input Screenshot (Screen A)"] --> B1["Compute CLIP Embedding"]
         A2["Database of App Screenshots"] --> B2["Compute CLIP Embeddings"]
         B1 --> C1["Compute Similarity Matrix"]
@@ -22,6 +23,7 @@ graph LR
 
     %% Phase 2 Section
     subgraph Phase2["Phase 2: Widget-Level Difference Localization"]
+        X2[ ]:::invisible
         D1 --> A["Input Screenshots A & B"]
         A --> B["Pixel-Level Diff / SSIM"]
         B --> C["Candidate Regions"]
