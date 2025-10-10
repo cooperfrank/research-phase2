@@ -8,6 +8,8 @@ This project builds on [Phase 1: Image–Image Retrieval for Distinguishing UI S
 
 Building on this foundation, Phase 2 extends the functionality to detect and localize widget-level differences within and across app screens.
 
+
+### Pipeline Diagram: Phase 1 + 2
 ```mermaid
 graph TD
 
@@ -53,6 +55,5 @@ Once the most similar screen is identified, this phase focuses on detecting and 
 2. **Candidate Regions:** Extracted patches potentially representing modified or new UI components.  
 3. **Patch-Level CLIP Embeddings:** Each patch is embedded using CLIP to assess its semantic similarity to known UI element descriptions.  
 4. **Low Similarity Check:** Determines whether a patch represents a changed element by measuring if its similarity to the corresponding patch in the reference (database) screen is below a set threshold. 
-    1. **Yes -> Text-Guided Labeling:** The patch is compared with textual labels (e.g., "button", "input box") to assign meaning or marked as "unknown". 
-    2. **No -> Optional Object Detection:** Applies existing detectors to refine known components.  
+    - **Yes -> Text-Guided Labeling:** The patch is compared with textual labels (e.g., "button", "input box") to assign meaning or marked as "unknown". 
 5. **Aggregation & Output:** All results are combined into bounding boxes and heatmaps, visualizing the detected changes and labeled UI elements.
