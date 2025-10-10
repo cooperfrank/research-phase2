@@ -10,6 +10,7 @@ Building on this foundation, Phase 2 extends the functionality to detect and loc
 
 
 ### Pipeline Diagram: Phase 1 + 2
+
 ```mermaid
 graph TD
 
