@@ -11,58 +11,38 @@ Building on this foundation, Phase 2 extends the functionality to detect and loc
 
 ```mermaid
 graph TD
-    %% Phase 1 Section
-    subgraph Phase1["Phase 1: Global Screen Similarity"]
-        A1["Input Screenshot (Screen A)"] --> B1["Compute CLIP Embedding"]
-        A2["Database of App Screenshots"] --> B2["Compute CLIP Embeddings"]
-        B1 --> C1["Compute Similarity Matrix"]
-        B2 --> C1
-        C1 --> D1["Identify Most Similar Screen (Screen B)"]
-    end
 
-    %% Phase 2 Section
-        D1 --> A["Input Screenshots A & B"]
-        A --> B["Pixel-Level Diff / SSIM"]
-        B --> C["Candidate Regions"]
-        C --> D["Patch-Level CLIP Embeddings"]
-        D --> E{"Low Similarity?"}
-        E -->|Yes| F["Text-Guided Labeling"]
-        F --> G["Assign Label or Unknown"]
-        E -->|No| H["Optional Object Detection"]
-        G --> I["Aggregate & Filter Results"]
-        H --> I
-        I --> J["Output: Bounding Boxes + Heatmap"]
-    end
+%% Phase 1 title node above the subgraph
+title1["Phase 1 — Global Screen Similarity"]
+
+subgraph Phase1
+    A1["Input Screenshot A"] --> B1["CLIP Embedding"]
+    A2["Database of App Screenshots"] --> B2["CLIP Embeddings (Precomputed)"]
+    B1 --> C1["Compute Similarities with Database"]
+    B2 --> C1
+    C1 --> D1["Identify Most Similar Screen (Screen B)"]
+end
+
+title1 -.-> A1
+
+
+%% Phase 2 title node above the subgraph
+title2["Phase 2 — Widget-Level Difference Localization"]
+
+subgraph Phase2
+    D1 --> A["Input Screenshots A & B"]
+    A --> B["Pixel-Level Diff / SSIM"]
+    B --> C["Candidate Regions"]
+    C --> D["Patch-Level CLIP Embeddings"]
+    D --> E{"Low Similarity?"}
+    E -->|Yes| F["Text-Guided Labeling"]
+    F --> G["Assign Label or Unknown"]
+    E -->|No| H["Optional Object Detection"]
+    G --> I["Aggregate & Filter Results"]
+    H --> I
+    I --> J["Output: Bounding Boxes + Heatmap"]
+end
+
+title2 -.-> D1
+
 ```
-graph TD
-    %% Phase 1 title node above the subgraph
-    title1["Phase 1 — Global Screen Similarity"]
-
-    subgraph Phase1
-        A1["Input Screenshot A"] --> B1["CLIP Embedding"]
-        A2["Database of App Screenshots"] --> B2["CLIP Embeddings - Precomputed"]
-        B1 --> C1["Compute Similarities with Database"]
-        B2 --> C1
-        C1 --> D1["Identify Most Similar Screen (Screen B)"]
-    end
-
-    title1 -.-> A1
-
-    %% Phase 2 title node above its subgraph
-    title2["Phase 2 — Widget-Level Difference Localization"]
-
-    subgraph Phase2
-        D1 --> A["Input Screenshots A & B"]
-        A --> B["Pixel-Level Diff / SSIM"]
-        B --> C["Candidate Regions"]
-        C --> D["Patch-Level CLIP Embeddings"]
-        D --> E{"Low Similarity?"}
-        E -->|Yes| F["Text-Guided Labeling"]
-        F --> G["Assign Label or Unknown"]
-        E -->|No| H["Optional Object Detection"]
-        G --> I["Aggregate & Filter Results"]
-        H --> I
-        I --> J["Output: Bounding Boxes + Heatmap"]
-    end
-
-    title2 -.-> D1
