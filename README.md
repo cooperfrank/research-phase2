@@ -23,7 +23,7 @@ subgraph Phase1["Phase 1: Global Screen Similarity"]
 end
 
 subgraph Phase2["Phase 2: Widget-Level Difference Localization"]
-    D1 --> A["Input Screenshots A & B"]
+    A["Input Screenshots A & B (from Phase 1)"]
     A --> B["Pixel-Level Diff / SSIM"]
     B --> C["Candidate Regions"]
     C --> D["Patch-Level CLIP Embeddings"]
