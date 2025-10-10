@@ -10,7 +10,6 @@ Building on this foundation, Phase 2 extends the functionality to detect and loc
 
 
 ### Pipeline Diagram: Phase 1 + 2
-
 ```mermaid
 graph TD
 
@@ -24,7 +23,8 @@ subgraph Phase1["Phase 1: Global Screen Similarity"]
 end
 
 subgraph Phase2["Phase 2: Widget-Level Difference Localization"]
-    A["Input Screenshots A & B"] --> B["Pixel-Level Diff / SSIM"]
+    D1 --> A["Input Screenshots A & B"]
+    A --> B["Pixel-Level Diff / SSIM"]
     B --> C["Candidate Regions"]
     C --> D["Patch-Level CLIP Embeddings"]
     D --> E{"Low Similarity?"}
